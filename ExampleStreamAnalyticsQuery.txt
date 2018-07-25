@@ -1,0 +1,23 @@
+SELECT
+    IoTHub.IoTHub.ConnectionDeviceId as DeviceId,
+    EventEnqueuedUtcTime as EventTime,
+    temperature / 100.0 as Temperature
+INTO
+    [powerbi]
+FROM
+    [iothub] TIMESTAMP BY EventEnqueuedUtcTime
+
+
+
+
+SELECT
+    IoTHub.IoTHub.ConnectionDeviceId as DeviceId,
+    max(EventEnqueuedUtcTime) as EventTime,
+    avg(temperature / 100.0) as AvgTemperature,
+    min(temperature / 100.0) as MinTemperature,
+    max(temperature / 100.0) as MaxTemperature
+INTO
+    [tablestorage]
+FROM
+    [iothub] TIMESTAMP BY EventEnqueuedUtcTime  
+GROUP BY IoTHub.IoTHub.ConnectionDeviceId, TumblingWindow(minute,1)   

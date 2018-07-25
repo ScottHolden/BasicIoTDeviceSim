@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.Devices.Client;
@@ -129,7 +128,8 @@ namespace BasicIoTDeviceSim
 
 			_lastValue = value;
 
-			Message message = MessageHelpers.ToJsonMessage(new {
+			Message message = MessageHelpers.ToJsonMessage(new
+			{
 				temperature = value
 			});
 
